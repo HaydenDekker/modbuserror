@@ -1,0 +1,8 @@
+modbus:
+  server:
+    port: 502
+    exception: 0C
+    
+logging:
+  level:
+    org.springframework.integration: info
