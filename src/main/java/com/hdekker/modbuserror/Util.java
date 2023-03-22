@@ -1,7 +1,5 @@
 package com.hdekker.modbuserror;
 
-import java.util.Collection;
-
 public class Util {
 
     public static String byteArray2String(byte[] ba) {

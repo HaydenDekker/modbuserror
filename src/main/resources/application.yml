@@ -5,4 +5,4 @@ modbus:
     
 logging:
   level:
-    org.springframework.integration: info
+    org.springframework.integration: debug
