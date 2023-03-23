@@ -24,6 +24,7 @@ public class ModbusClientSerializer extends AbstractByteArraySerializer {
                 k = stream.read();
                 if (k != -1) msg[i] = (byte) k;
                 if (i == 0) start = Instant.now();
+                logger.debug("Stream size is  " + stream.available() + " byte = " + k);
                 if (stream.available() == 0 && Duration.between(start, Instant.now()).abs().toMillis() > 10) i = 7;  // abort the loop if nothing after 10 ms
             }
 

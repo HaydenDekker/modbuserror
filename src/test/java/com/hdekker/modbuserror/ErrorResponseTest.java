@@ -7,6 +7,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import com.hdekker.modbuserror.client.ModbusClient;
+import static org.hamcrest.Matchers.*;
+import static org.hamcrest.MatcherAssert.*;
+
+
 
 @SpringBootTest
 public class ErrorResponseTest {
@@ -28,7 +32,16 @@ public class ErrorResponseTest {
 		
 		byte[] resp = client.request(eastRequestPg1);
 		
-		//assertThat(respAsString, contains(serverConfig.getException()));
+		StringBuilder msgStr = new StringBuilder();
+        for (byte b: resp) {
+            msgStr.append(String.format("%02x ", b));
+        }
+        log.info("Serialized request message: " + msgStr.toString());
+
+        byte function = resp[7];
+        byte exception = resp[8];
+        
+		assertThat(exception, equalTo((byte) 0x0c));
 		
 		
 	}

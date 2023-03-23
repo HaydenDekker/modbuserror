@@ -15,13 +15,6 @@ import org.springframework.messaging.Message;
 
 @Configuration
 public class ClientIntegration {
-
-
-	@Bean
-	DirectChannel outputGW() {
-		return MessageChannels.direct("outputGW")
-		.get();
-	}
 	
 	@Bean
 	DirectChannel inputGW() {
@@ -41,8 +34,7 @@ public class ClientIntegration {
 		.get();
 	}
 	
-	@MessagingGateway(defaultRequestChannel = "inputGW",
-			defaultReplyChannel = "outputGW")
+	@MessagingGateway(defaultRequestChannel = "inputGW")
 	public interface MG{
 		
 		byte[] send(byte[] arr);
@@ -76,7 +68,6 @@ public class ClientIntegration {
 							connFactory())
 					)
 				.transform(Message.class, m->er.fixedResponse(m))
-				.handle(Tcp.outboundAdapter(connFactory()))
 				.get();
 		
 		return f;

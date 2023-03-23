@@ -18,16 +18,7 @@ public class ModbusErrorServer {
 	@Autowired
 	ServerConfig serverConfig;
 	
-	public ModbusErrorServer(ServerConfig serverConfig,
-			IntegrationFlowContext fc) {
-
-		this.serverConfig = serverConfig;
-		log.info("Creating server.");
-		
-		
-	}
-	
-	static byte[] resp = {0x00, 0x00, 0x00, 0x00, 0x00, 0x06, 0x01, (byte) 0x84, 0x0c};
+	static byte[] resp = {0x00, 0x00, 0x00, 0x00, 0x00, 0x03, 0x01, (byte) 0x84, 0x0c};
 	
 	public Message<?> fixedResponse(Message<?> msg) {
 		
