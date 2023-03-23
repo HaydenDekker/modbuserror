@@ -27,17 +27,25 @@ public class ModbusErrorServer {
 		
 		log.info((String) id);
 		
+		byte[] request = (byte[]) msg.getPayload();
+		
 		 StringBuilder msgStr = new StringBuilder();
-         for (byte b: (byte[]) msg.getPayload()) {
+         for (byte b: request ) {
              msgStr.append(String.format("%02x ", b));
          }
         log.info("Serialized request message: " + msgStr.toString());
-
-         
+        
 		String hexException = serverConfig.getException();
 		byte[] hex = HexFormat.of().parseHex(hexException);
 		
 		log.info("Exception code is " + hex[0]);
+		
+		// mbas
+		for (int i = 0; i < 7; i++) {
+			resp[i] = request[i];
+		}
+		
+		resp[5] = 0x03; // constant error
 		
 		Message<byte[]> res = MessageBuilder.withPayload(resp)
 				.copyHeaders(msg.getHeaders())
