@@ -22,18 +22,6 @@ public class ClientIntegration {
 		.get();
 	}
 	
-	@Bean
-	DirectChannel freply() {
-		return MessageChannels.direct("freply")
-		.get();
-	}
-	
-	@Bean
-	DirectChannel fixedResp() {
-		return MessageChannels.direct("fixedResp")
-		.get();
-	}
-	
 	@MessagingGateway(defaultRequestChannel = "inputGW")
 	public interface MG{
 		

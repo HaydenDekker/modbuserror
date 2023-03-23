@@ -1,4 +1,4 @@
-package com.hdekker.modbuserror.client;
+package com.hdekker.modbuserror;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -9,9 +9,6 @@ import org.springframework.integration.ip.dsl.Tcp;
 import org.springframework.integration.ip.tcp.TcpOutboundGateway;
 import org.springframework.integration.ip.tcp.connection.TcpNetClientConnectionFactory;
 
-import com.hdekker.modbuserror.ClientIntegration;
-import com.hdekker.modbuserror.ModbusClientSerializer;
-import com.hdekker.modbuserror.ServerConfig;
 import com.hdekker.modbuserror.ClientIntegration.MG;
 
 @Configuration

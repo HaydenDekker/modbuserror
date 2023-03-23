@@ -4,6 +4,8 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -27,23 +29,12 @@ import static org.hamcrest.MatcherAssert.*;
 import static org.hamcrest.Matchers.*;
 
 @SpringBootTest
-public class ClientGatewayTest implements HasLogger{
+public class ClientGatewayTest {
+	
+	Logger log = LoggerFactory.getLogger(ClientGatewayTest.class);
 	
 	@Autowired
 	ServerConfig serverConfig;
-
-	@Disabled("")
-	@Test
-	public void canStartIntegrationGatway() {
-		
-		
-		
-//		IntegrationFlow.from(Tcp.outboundGateway(Tcp.netClient("localhost", serverConfig.getPort()))
-//				
-//				);
-		
-		
-	}
 	
 	@Autowired
 	IntegrationFlowContext flowContex;
@@ -53,7 +44,7 @@ public class ClientGatewayTest implements HasLogger{
 	@Test
 	public void whenTwoChannelsAreConnected_ExpectMessageSentToTheFirstReceivedBySecond() throws InterruptedException {
 		
-		logger(getClass()).info("Starting");
+		log.info("Starting");
 		
 		// This does not get registered in this manner. so won't be used
 		DirectChannel channel = MessageChannels.direct("outBound")
@@ -65,7 +56,7 @@ public class ClientGatewayTest implements HasLogger{
 				.get();
 		
 		MessageHandler mh = (m) -> {
-			logger(getClass()).info("Message received.");
+			log.info("Message received.");
 			message = (Message<String>) m;
 		};
 		
@@ -78,13 +69,13 @@ public class ClientGatewayTest implements HasLogger{
 		
 		flowReg1.start();
 			
-		if(flow1.isRunning()) logger(getClass()).info("Flow 1 running.");
+		if(flow1.isRunning()) log.info("Flow 1 running.");
 		
 		flowContex.registration(flow2)
 			.register()
 			.start();
 		
-		logger(getClass()).info("Sending message");
+		log.info("Sending message");
 		
 		flow1.getInputChannel().send(MessageBuilder.withPayload("Great.").build());
 		
@@ -100,7 +91,7 @@ public class ClientGatewayTest implements HasLogger{
 					.get();
 			
 			MessageHandler mh = (m) -> {
-				logger(getClass()).info("Message received.");
+				log.info("Message received.");
 				message = (Message<String>) m;
 			};
 			
@@ -113,9 +104,9 @@ public class ClientGatewayTest implements HasLogger{
 			
 			flowReg1.start();
 				
-			if(flow1.isRunning()) logger(getClass()).info("Flow 1 running.");
+			if(flow1.isRunning()) log.info("Flow 1 running.");
 			
-			logger(getClass()).info("Sending message");
+			log.info("Sending message");
 			
 			assertThrows(MessageDeliveryException.class, ()->{
 				channel.send(MessageBuilder.withPayload("Great.").build());
@@ -141,7 +132,7 @@ public class ClientGatewayTest implements HasLogger{
 			
 			
 			MessageHandler mh = (m) -> {
-				logger(getClass()).info("Message received.");
+				log.info("Message received.");
 				message = (Message<String>) m;
 			};
 			
@@ -154,9 +145,9 @@ public class ClientGatewayTest implements HasLogger{
 			
 			flowReg1.start();
 				
-			if(flow1.isRunning()) logger(getClass()).info("Flow 1 running.");
+			if(flow1.isRunning()) log.info("Flow 1 running.");
 			
-			logger(getClass()).info("Sending message");
+			log.info("Sending message");
 			
 			channel.send(MessageBuilder.withPayload("Great.").build());
 
